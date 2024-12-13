@@ -140,7 +140,7 @@ a.scratch-link-experience:hover {
 
 .scratch-link-experience {
     padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
-    margin: 20px 20px;
+    margin: 40px 20px;
     background: #f0f0f0; /* Optional: adds a background color for better visibility */
     text-decoration: none; /* Removes underline from link */
     color: #333; /* Sets text color */
@@ -167,7 +167,7 @@ a.scratch-link-game:hover {
 
 .scratch-link-game {
     padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
-    margin: 40px 20px;
+    margin: 60px 20px;
     background: #f0f0f0; /* Optional: adds a background color for better visibility */
     text-decoration: none; /* Removes underline from link */
     color: #333; /* Sets text color */
