@@ -121,15 +121,22 @@ a.back-to-home:hover {
 /*STYLING FOR LINK ON SCRATCH PAGE TO EXPERIENCE*/
 
   a.scratch-link-experience {
-    position: absolute;
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px; 
+  }
+    /*position: absolute;
     top: 50px;
     left: 10px;
     color: #007bff!important;
     text-decoration: none!important;
     padding: 8px!important;
     background-color: #f8f9fa!important;
-    border-radius: 5px !important;
-}
+    border-radius: 5px !important;*/
 
 
 a.scratch-link-experience:hover {
@@ -149,14 +156,13 @@ a.scratch-link-experience:hover {
 
 /*STYLING FOR LINK ON SCRATCH PAGE TO GAME*/
 a.scratch-link-game {
-    position: absolute;
-    top: 100px;
-    left: 10px;
-    color: #007bff!important;
-    text-decoration: none!important;
-    padding: 8px!important;
-    background-color: #f8f9fa!important;
-    border-radius: 5px !important;
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px; 
 }
 
 a.scratch-link-game:hover {
@@ -172,4 +178,12 @@ a.scratch-link-game:hover {
     text-decoration: none; /* Removes underline from link */
     color: #333; /* Sets text color */
     border-radius: 5px; /* Optional: rounds the corners of the link for a smoother look */
+}
+
+.link-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    margin-top: 20px;
+    padding-left: 10px;
 }
