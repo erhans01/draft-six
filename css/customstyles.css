@@ -146,13 +146,14 @@ a.scratch-link-experience:hover {
 
 
 .scratch-link-experience {
-    padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
-    margin: 50px 20px;
-    background: #f0f0f0; /* Optional: adds a background color for better visibility */
-    text-decoration: none; /* Removes underline from link */
-    color: #333; /* Sets text color */
-    border-radius: 5px; /* Optional: rounds the corners of the link for a smoother look */
-}
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px; 
+  }
 
 /*STYLING FOR LINK ON SCRATCH PAGE TO GAME*/
 a.scratch-link-game {
@@ -172,12 +173,13 @@ a.scratch-link-game:hover {
 
 
 .scratch-link-game {
-    padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
-    margin: 100px 20px;
-    background: #f0f0f0; /* Optional: adds a background color for better visibility */
-    text-decoration: none; /* Removes underline from link */
-    color: #333; /* Sets text color */
-    border-radius: 5px; /* Optional: rounds the corners of the link for a smoother look */
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 10px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px; 
 }
 
 .link-container {
