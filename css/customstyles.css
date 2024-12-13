@@ -118,6 +118,7 @@ a.back-to-home:hover {
     cursor: pointer;">Scroll to Top</a>
   }
 
+/*STYLING FOR LINK ON SCRATCH PAGE TO EXPERIENCE*/
 
   a.scratch-link-experience {
     position: absolute;
@@ -130,16 +131,6 @@ a.back-to-home:hover {
     border-radius: 5px !important;
 }
 
-a.scratch-link-game {
-    position: absolute;
-    top: 30px;
-    left: 10px;
-    color: #007bff!important;
-    text-decoration: none!important;
-    padding: 8px!important;
-    background-color: #f8f9fa!important;
-    border-radius: 5px !important;
-}
 
 a.scratch-link-experience:hover {
     color: #0056b3;
@@ -156,6 +147,17 @@ a.scratch-link-experience:hover {
     border-radius: 5px; /* Optional: rounds the corners of the link for a smoother look */
 }
 
+/*STYLING FOR LINK ON SCRATCH PAGE TO GAME*/
+a.scratch-link-game {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    color: #007bff!important;
+    text-decoration: none!important;
+    padding: 8px!important;
+    background-color: #f8f9fa!important;
+    border-radius: 5px !important;
+}
 
 a.scratch-link-game:hover {
     color: #0056b3;
@@ -165,7 +167,7 @@ a.scratch-link-game:hover {
 
 .scratch-link-game {
     padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
-    margin: 20px 20px;
+    margin: 40px 20px;
     background: #f0f0f0; /* Optional: adds a background color for better visibility */
     text-decoration: none; /* Removes underline from link */
     color: #333; /* Sets text color */
