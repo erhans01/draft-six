@@ -117,3 +117,26 @@ a.back-to-home:hover {
     color: #007BFF; 
     cursor: pointer;">Scroll to Top</a>
   }
+
+
+  a.scratch-link-experience {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    color: #007bff!important;
+    text-decoration: none!important;
+    padding: 8px!important;
+    background-color: #f8f9fa!important;
+    border-radius: 5px !important;
+}
+
+a.scratch-link-game {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    color: #007bff!important;
+    text-decoration: none!important;
+    padding: 8px!important;
+    background-color: #f8f9fa!important;
+    border-radius: 5px !important;
+}
