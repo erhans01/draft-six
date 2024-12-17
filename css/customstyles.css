@@ -165,9 +165,3 @@ a.scratch-link-game:hover {
     border-radius: 5px; 
 }
 
-/*BACKGROUND COLOR*/
-body {
-    background-color: #cee2f5; /* Example: Light blue color */
-    margin: 0; /* Optional: Remove default body margin */
-    padding: 0;
-}
