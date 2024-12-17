@@ -41,24 +41,22 @@
         const rows = canvas.height / scale;
         const columns = canvas.width / scale;
 
-        let snake, fruit, gameSpeed = 250;
+        let snake, fruit, gameSpeed = 200;
 
-        // Fruit images
         const fruitImages = [
-            'images/apple.png', 
-            'images/banana.png', 
+            'images/apple.png',
+            'images/banana.png',
             'images/cherry.png'
         ];
 
-        // Game Setup
         function initGame() {
             snake = new Snake();
             fruit = new Fruit();
             fruit.pickLocation();
-            setGameSpeed(gameSpeed);
+            setGameInterval(gameSpeed);
         }
 
-        function setGameSpeed(speed) {
+        function setGameInterval(speed) {
             clearInterval(window.gameInterval);
             window.gameInterval = setInterval(() => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -68,15 +66,15 @@
 
                 if (snake.eat(fruit)) {
                     fruit.pickLocation();
-                    if (gameSpeed > 100) gameSpeed -= 10; // Speed up game
-                    setGameSpeed(gameSpeed);
+                    if (gameSpeed > 100) gameSpeed -= 10; // Speed up
+                    setGameInterval(gameSpeed);
                 }
 
-                snake.checkCollision();
+                snake.checkEdgeCollision(); // Check edge collision
+                snake.checkSelfCollision();
             }, speed);
         }
 
-        // Snake Class
         function Snake() {
             this.x = 0;
             this.y = 0;
@@ -94,20 +92,13 @@
             };
 
             this.update = function() {
-                // Move tail
                 for (let i = this.tail.length - 1; i > 0; i--) {
                     this.tail[i] = { ...this.tail[i - 1] };
                 }
                 if (this.total > 0) this.tail[0] = { x: this.x, y: this.y };
 
-                // Move head
                 this.x += this.xSpeed;
                 this.y += this.ySpeed;
-
-                // Check if snake hits edges
-                if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height) {
-                    gameOver();
-                }
             };
 
             this.changeDirection = function(direction) {
@@ -128,16 +119,21 @@
                 return false;
             };
 
-            this.checkCollision = function() {
+            this.checkEdgeCollision = function() {
+                if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height) {
+                    gameOver("You hit the edge!");
+                }
+            };
+
+            this.checkSelfCollision = function() {
                 for (let i = 0; i < this.tail.length; i++) {
                     if (this.x === this.tail[i].x && this.y === this.tail[i].y) {
-                        gameOver();
+                        gameOver("You hit yourself!");
                     }
                 }
             };
         }
 
-        // Fruit Class
         function Fruit() {
             this.x;
             this.y;
@@ -154,20 +150,19 @@
             };
         }
 
-        // Game Over
-        function gameOver() {
-            alert("Game Over! Your score: " + snake.total);
-            gameSpeed = 250; // Reset game speed
-            initGame();
+        function gameOver(message) {
+            clearInterval(window.gameInterval); // Stop the game
+            setTimeout(() => {
+                alert(`${message} Game Over! Your score: ${snake.total}`);
+                window.location.reload(); // Reload to restart
+            }, 100);
         }
 
-        // Keyboard Listener
         window.addEventListener('keydown', (evt) => {
             const direction = evt.key.replace('Arrow', '');
             snake.changeDirection(direction);
         });
 
-        // Start the game
         initGame();
     </script>
 </body>
