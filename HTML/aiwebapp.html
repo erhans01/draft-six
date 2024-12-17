@@ -15,7 +15,7 @@
             margin: 0;
         }
         #gameCanvas {
-            background-color: #222; /* Darker background for contrast */
+            background-color: #222;
             display: block;
             border: 2px solid #fff;
         }
@@ -45,21 +45,19 @@
 
         // Fruit images
         const fruitImages = [
-            'images/apple.png',
-            'images/banana.png',
+            'images/apple.png', 
+            'images/banana.png', 
             'images/cherry.png'
         ];
 
         // Game Setup
-        (function setup() {
+        function initGame() {
             snake = new Snake();
             fruit = new Fruit();
             fruit.pickLocation();
-
             setGameSpeed(gameSpeed);
-        })();
+        }
 
-        // Set Game Interval Based on Speed
         function setGameSpeed(speed) {
             clearInterval(window.gameInterval);
             window.gameInterval = setInterval(() => {
@@ -70,15 +68,15 @@
 
                 if (snake.eat(fruit)) {
                     fruit.pickLocation();
-                    gameSpeed -= 5; // Increase speed slightly
-                    setGameSpeed(gameSpeed); // Reset game speed
+                    if (gameSpeed > 100) gameSpeed -= 10; // Speed up game
+                    setGameSpeed(gameSpeed);
                 }
 
                 snake.checkCollision();
             }, speed);
         }
 
-        // Snake Constructor
+        // Snake Class
         function Snake() {
             this.x = 0;
             this.y = 0;
@@ -88,25 +86,28 @@
             this.tail = [];
 
             this.draw = function() {
-                ctx.fillStyle = "#00FF00"; // Bright green snake
-                this.tail.forEach(part => ctx.fillRect(part.x, part.y, scale, scale));
+                ctx.fillStyle = "#00FF00";
+                for (let i = 0; i < this.tail.length; i++) {
+                    ctx.fillRect(this.tail[i].x, this.tail[i].y, scale, scale);
+                }
                 ctx.fillRect(this.x, this.y, scale, scale);
             };
 
             this.update = function() {
+                // Move tail
                 for (let i = this.tail.length - 1; i > 0; i--) {
-                    this.tail[i] = this.tail[i - 1];
+                    this.tail[i] = { ...this.tail[i - 1] };
                 }
-                this.tail[0] = { x: this.x, y: this.y };
+                if (this.total > 0) this.tail[0] = { x: this.x, y: this.y };
 
+                // Move head
                 this.x += this.xSpeed;
                 this.y += this.ySpeed;
 
-                // Wrap the snake around edges
-                if (this.x >= canvas.width) this.x = 0;
-                if (this.y >= canvas.height) this.y = 0;
-                if (this.x < 0) this.x = canvas.width - scale;
-                if (this.y < 0) this.y = canvas.height - scale;
+                // Check if snake hits edges
+                if (this.x < 0 || this.y < 0 || this.x >= canvas.width || this.y >= canvas.height) {
+                    gameOver();
+                }
             };
 
             this.changeDirection = function(direction) {
@@ -121,33 +122,30 @@
             this.eat = function(fruit) {
                 if (this.x === fruit.x && this.y === fruit.y) {
                     this.total++;
-                    this.tail.push({}); // Add new tail segment
+                    this.tail.push({});
                     return true;
                 }
                 return false;
             };
 
             this.checkCollision = function() {
-                for (let i = 1; i < this.tail.length; i++) {
+                for (let i = 0; i < this.tail.length; i++) {
                     if (this.x === this.tail[i].x && this.y === this.tail[i].y) {
-                        alert("Game Over! Your Score: " + this.total);
-                        resetGame();
+                        gameOver();
                     }
                 }
             };
         }
 
-        // Fruit Constructor
+        // Fruit Class
         function Fruit() {
             this.x;
             this.y;
             this.image = new Image();
 
             this.pickLocation = function() {
-                this.x = (Math.floor(Math.random() * columns)) * scale;
-                this.y = (Math.floor(Math.random() * rows)) * scale;
-
-                // Randomize fruit image
+                this.x = Math.floor(Math.random() * columns) * scale;
+                this.y = Math.floor(Math.random() * rows) * scale;
                 this.image.src = fruitImages[Math.floor(Math.random() * fruitImages.length)];
             };
 
@@ -156,19 +154,21 @@
             };
         }
 
-        // Reset Game
-        function resetGame() {
-            snake = new Snake();
-            fruit.pickLocation();
-            gameSpeed = 250;
-            setGameSpeed(gameSpeed);
+        // Game Over
+        function gameOver() {
+            alert("Game Over! Your score: " + snake.total);
+            gameSpeed = 250; // Reset game speed
+            initGame();
         }
 
-        // Keyboard Event Listener
+        // Keyboard Listener
         window.addEventListener('keydown', (evt) => {
             const direction = evt.key.replace('Arrow', '');
             snake.changeDirection(direction);
         });
+
+        // Start the game
+        initGame();
     </script>
 </body>
 </html>
