@@ -49,7 +49,6 @@
 /* COLOR OF LAST NAME ON HOME PAGE */
 .text-primary {
     color: #4a90e0 !important;
-    font-family: "Georgia", "Times New Roman", serif;
 }
 
 /* BACK TO HOME DESIGN ON SCRATCH.HTML*/
@@ -116,6 +115,7 @@ a.back-to-home:hover {
     color: rgb(70, 126, 230);
     padding-left: 50px;
     padding-right: 200px;
+    font-family: "Georgia", "Times New Roman", serif;
 }
 
 .scratch-pictures-text{
