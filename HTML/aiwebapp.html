@@ -49,74 +49,99 @@
     <canvas id="gameCanvas" width="500" height="500"></canvas>
    
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // Canvas setup
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
         const scale = 20;
         const rows = canvas.height / scale;
         const columns = canvas.width / scale;
 
-        let snake, fruit, fruitImage, gameSpeed = 150;
+        let snake, fruitImage, fruit, gameSpeed = 150;
 
-   
+        // Load fruit image
+        fruitImage = new Image();
+        fruitImage.src = "./assets/apple.png";
 
+        fruitImage.onload = () => {
+            initGame();
+        };
+
+        // Initialize the game
         function initGame() {
             snake = new Snake();
             fruit = new Fruit();
-            fruit.pickLocation(); // Randomize fruit position
+            fruit.pickLocation();
             setInterval(gameLoop, gameSpeed);
         }
 
+        // Main game loop
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Update and draw snake
+            fruit.draw();
             snake.update();
             snake.draw();
 
-            // Check if snake eats fruit
             if (snake.eat(fruit)) {
                 fruit.pickLocation();
             }
 
-            // Check for collisions
             snake.checkCollision();
         }
 
+        // Snake constructor
         function Snake() {
             this.x = 0;
             this.y = 0;
             this.xSpeed = scale;
             this.ySpeed = 0;
+            this.tail = [{ x: this.x, y: this.y }];
 
             this.update = function () {
-                this.x += this.xSpeed;
-                this.y += this.ySpeed;
+                // Move the tail
+                const newHead = {
+                    x: this.tail[0].x + this.xSpeed,
+                    y: this.tail[0].y + this.ySpeed
+                };
 
-                // Wrap edges for debugging purposes
-                if (this.x >= canvas.width) this.x = 0;
-                if (this.y >= canvas.height) this.y = 0;
-                if (this.x < 0) this.x = canvas.width - scale;
-                if (this.y < 0) this.y = canvas.height - scale;
+                this.tail.unshift(newHead);
+                this.tail.pop();
+
+                // Edge collisions
+                if (newHead.x < 0 || newHead.y < 0 || newHead.x >= canvas.width || newHead.y >= canvas.height) {
+                    gameOver("You hit the wall!");
+                }
             };
 
             this.draw = function () {
-                ctx.fillStyle = "blue";
-                ctx.fillRect(this.x, this.y, scale, scale);
+                ctx.fillStyle = "limegreen";
+                this.tail.forEach(segment => {
+                    ctx.fillRect(segment.x, segment.y, scale, scale);
+                });
             };
 
             this.changeDirection = function (direction) {
-                    if (direction === "Up" && this.ySpeed === 0) {
-                        this.xSpeed = 0; this.ySpeed = -scale;
-                    } else if (direction === "Down" && this.ySpeed === 0) {
-                        this.xSpeed = 0; this.ySpeed = scale;
-                    } else if (direction === "Left" && this.xSpeed === 0) {
-                        this.xSpeed = -scale; this.ySpeed = 0;
-                    } else if (direction === "Right" && this.xSpeed === 0) {
-                        this.xSpeed = scale; this.ySpeed = 0;
-                    }
-                };
-            }
+                if (direction === "Up" && this.ySpeed === 0) {
+                    this.xSpeed = 0; this.ySpeed = -scale;
+                }
+                if (direction === "Down" && this.ySpeed === 0) {
+                    this.xSpeed = 0; this.ySpeed = scale;
+                }
+                if (direction === "Left" && this.xSpeed === 0) {
+                    this.xSpeed = -scale; this.ySpeed = 0;
+                }
+                if (direction === "Right" && this.xSpeed === 0) {
+                    this.xSpeed = scale; this.ySpeed = 0;
+                }
+            };
 
+            this.eat = function (fruit) {
+                if (this.tail[0].x === fruit.x && this.tail[0].y === fruit.y) {
+                    this.tail.push({});
+                    return true;
+                }
+                return false;
+            };
 
             this.checkCollision = function () {
                 for (let i = 1; i < this.tail.length; i++) {
@@ -127,27 +152,34 @@
             };
         }
 
+        // Fruit constructor
+        function Fruit() {
+            this.x = 0;
+            this.y = 0;
 
+            this.pickLocation = function () {
+                this.x = Math.floor(Math.random() * columns) * scale;
+                this.y = Math.floor(Math.random() * rows) * scale;
+            };
+
+            this.draw = function () {
+                ctx.drawImage(fruitImage, this.x, this.y, scale, scale);
+            };
+        }
+
+        // Game Over function
         function gameOver(message) {
             setTimeout(() => {
                 alert(`${message} Game Over! Your score: ${snake.tail.length - 1}`);
-                resetGame();
+                window.location.reload();
             }, 100);
         }
 
-        function resetGame() {
-            // Reset snake and fruit state
-            snake = new Snake();  // Create a new snake
-            fruit.pickLocation(); // Randomize the fruit's position
-            gameSpeed = 150;      // Reset game speed
-        }
-        
-        // Handle arrow key inputs
-        window.addEventListener('keydown', (e) => {
-            const direction = e.key.replace('Arrow', '');
+        // Handle key events
+        window.addEventListener("keydown", (e) => {
+            const direction = e.key.replace("Arrow", "");
             snake.changeDirection(direction);
         });
     </script>
 </body>
 </html>
-
