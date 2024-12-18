@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -19,15 +20,22 @@
             background-color: #fff;
         }
 
-        .back-to-home {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        .links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .links a {
             padding: 10px;
             background: #eee;
             color: #333;
             text-decoration: none;
             border-radius: 5px;
+        }
+
+        .links a:hover {
+            background: #ddd;
         }
     </style>
         <link href="../css/styles.css" rel="stylesheet" />
@@ -39,12 +47,13 @@
     </head>
 </head>
 <body>
-    <a href="../index.html" class="back-to-home">Back to Home Page</a>
-    <a href="experience.html" class="scratch-link-experience">Experience</a>
-    <a href="scratch.html" class="scratch-link-game">Scratch</a>
+    <div class="links">
+        <a href="../index.html" class="back-to-home">Back to Home Page</a>
+        <a href="experience.html" class="scratch-link-experience">Experience</a>
+        <a href="scratch.html" class="scratch-link-game">Scratch</a>
+    </div>
     
     <h2>Snake Game</h2>
-
 
     <canvas id="gameCanvas" width="500" height="500"></canvas>
     <script>
