@@ -46,7 +46,7 @@
     <h2>Snake Game</h2>
 
 
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <canvas id="gameCanvas" width="500" height="500"></canvas>
    
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -59,7 +59,7 @@
 
         // Load the fruit image
         fruitImage = new Image();
-        fruitImage.src = ''; // Disable fruit image temporarily
+        fruitImage.src = '../assets/apple.png';
         fruitImage.onload = () => {
             initGame();
         };
@@ -71,50 +71,47 @@
             setInterval(gameLoop, gameSpeed);
         }
 
-       
         function gameLoop() {
-    console.log("Game Loop Running"); // Check if gameLoop runs
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw fruit
+            fruit.draw();
 
-    fruit.draw();
-    console.log("Fruit drawn at:", fruit.x, fruit.y); // Check fruit position
+            // Update and draw snake
+            snake.update();
+            snake.draw();
 
-    snake.update();
-    snake.draw();
-    console.log("Snake head at:", snake.tail[0].x, snake.tail[0].y); // Check snake position
+            // Check if snake eats fruit
+            if (snake.eat(fruit)) {
+                fruit.pickLocation();
+            }
 
-    if (snake.eat(fruit)) {
-        console.log("Fruit eaten!");
-        fruit.pickLocation();
-    }
-
-    snake.checkCollision();
-}
-
+            // Check for collisions
+            snake.checkCollision();
+        }
 
         function Snake() {
-    this.x = 0;
-    this.y = 0;
-    this.xSpeed = scale; // Moves right initially
-    this.ySpeed = 0;
-    this.tail = [{ x: this.x, y: this.y }]; // Initialize snake head
+            this.x = 0;
+            this.y = 0;
+            this.xSpeed = scale; // Moves right initially
+            this.ySpeed = 0;
+            this.tail = [{ x: this.x, y: this.y }];
 
-    this.update = function () {
-        const newHead = { x: this.tail[0].x + this.xSpeed, y: this.tail[0].y + this.ySpeed };
+            this.update = function () {
+                // Move the tail
+                for (let i = this.tail.length - 1; i > 0; i--) {
+                    this.tail[i] = { ...this.tail[i - 1] };
+                }
 
-        // Move the tail
-        this.tail.unshift(newHead); // Add new head
-        if (!this.eat(fruit)) {
-            this.tail.pop(); // Remove last tail segment unless eating
-        }
+                // Move the head
+                this.tail[0].x += this.xSpeed;
+                this.tail[0].y += this.ySpeed;
 
-        // Check for edge collisions
-        if (this.tail[0].x < 0 || this.tail[0].y < 0 || this.tail[0].x >= canvas.width || this.tail[0].y >= canvas.height) {
-            gameOver("You hit the wall!");
-        }
-    };
-}
+                // Check for edge collisions (Game Over)
+                if (this.tail[0].x < 0 || this.tail[0].y < 0 || this.tail[0].x >= canvas.width || this.tail[0].y >= canvas.height) {
+                    gameOver("You hit the wall!");
+                }
+            };
 
             this.draw = function () {
                 ctx.fillStyle = "#00FF00";
@@ -191,3 +188,4 @@
     </script>
 </body>
 </html>
+
