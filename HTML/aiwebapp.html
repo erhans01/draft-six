@@ -57,12 +57,7 @@
 
         let snake, fruit, fruitImage, gameSpeed = 150;
 
-        // Load the fruit image
-        fruitImage = new Image();
-        fruitImage.src = '../assets/apple.png';
-        fruitImage.onload = () => {
-            initGame();
-        };
+   
 
         function initGame() {
             snake = new Snake();
@@ -73,9 +68,6 @@
 
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw fruit
-            fruit.draw();
 
             // Update and draw snake
             snake.update();
@@ -93,55 +85,38 @@
         function Snake() {
             this.x = 0;
             this.y = 0;
-            this.xSpeed = scale; // Moves right initially
+            this.xSpeed = scale;
             this.ySpeed = 0;
-            this.tail = [{ x: this.x, y: this.y }];
 
             this.update = function () {
-                // Move the tail
-                for (let i = this.tail.length - 1; i > 0; i--) {
-                    this.tail[i] = { ...this.tail[i - 1] };
-                }
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
 
-                // Move the head
-                this.tail[0].x += this.xSpeed;
-                this.tail[0].y += this.ySpeed;
-
-                // Check for edge collisions (Game Over)
-                if (this.tail[0].x < 0 || this.tail[0].y < 0 || this.tail[0].x >= canvas.width || this.tail[0].y >= canvas.height) {
-                    gameOver("You hit the wall!");
-                }
+                // Wrap edges for debugging purposes
+                if (this.x >= canvas.width) this.x = 0;
+                if (this.y >= canvas.height) this.y = 0;
+                if (this.x < 0) this.x = canvas.width - scale;
+                if (this.y < 0) this.y = canvas.height - scale;
             };
 
             this.draw = function () {
-                ctx.fillStyle = "#00FF00";
-                this.tail.forEach(segment => {
-                    ctx.fillRect(segment.x, segment.y, scale, scale);
-                });
+                ctx.fillStyle = "blue";
+                ctx.fillRect(this.x, this.y, scale, scale);
             };
 
             this.changeDirection = function (direction) {
-                if (direction === 'Up' && this.ySpeed === 0) {
-                    this.xSpeed = 0; this.ySpeed = -scale;
-                }
-                if (direction === 'Down' && this.ySpeed === 0) {
-                    this.xSpeed = 0; this.ySpeed = scale;
-                }
-                if (direction === 'Left' && this.xSpeed === 0) {
-                    this.xSpeed = -scale; this.ySpeed = 0;
-                }
-                if (direction === 'Right' && this.xSpeed === 0) {
-                    this.xSpeed = scale; this.ySpeed = 0;
-                }
-            };
+                    if (direction === "Up" && this.ySpeed === 0) {
+                        this.xSpeed = 0; this.ySpeed = -scale;
+                    } else if (direction === "Down" && this.ySpeed === 0) {
+                        this.xSpeed = 0; this.ySpeed = scale;
+                    } else if (direction === "Left" && this.xSpeed === 0) {
+                        this.xSpeed = -scale; this.ySpeed = 0;
+                    } else if (direction === "Right" && this.xSpeed === 0) {
+                        this.xSpeed = scale; this.ySpeed = 0;
+                    }
+                };
+            }
 
-            this.eat = function (fruit) {
-                if (this.tail[0].x === fruit.x && this.tail[0].y === fruit.y) {
-                    this.tail.push({}); // Grow the snake
-                    return true;
-                }
-                return false;
-            };
 
             this.checkCollision = function () {
                 for (let i = 1; i < this.tail.length; i++) {
@@ -152,19 +127,6 @@
             };
         }
 
-        function Fruit() {
-            this.x = 0;
-            this.y = 0;
-
-            this.pickLocation = function () {
-                this.x = Math.floor(Math.random() * columns) * scale;
-                this.y = Math.floor(Math.random() * rows) * scale;
-            };
-
-            this.draw = function () {
-                ctx.drawImage(fruitImage, this.x, this.y, scale, scale);
-            };
-        }
 
         function gameOver(message) {
             setTimeout(() => {
