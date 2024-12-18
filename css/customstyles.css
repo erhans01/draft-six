@@ -161,6 +161,8 @@ a.back-to-home:hover {
 
 a.scratch-link-experience:hover {
     color: #0056b3;
+    padding: 10px 20px;
+    margin: 20px 10px;
     text-decoration: underline;
 }
 

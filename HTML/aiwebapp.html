@@ -46,7 +46,7 @@
     <h2>Snake Game</h2>
 
 
-    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <canvas id="gameCanvas" width="300" height="300"></canvas>
    
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -59,7 +59,7 @@
 
         // Load the fruit image
         fruitImage = new Image();
-        fruitImage.src = '../assets/apple.png';
+        fruitImage.src = '../../assets/apple.png';
         fruitImage.onload = () => {
             initGame();
         };
